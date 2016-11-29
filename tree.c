@@ -19,8 +19,7 @@ int search(node*, int);
 int complement(node*, int);
 node *t1,*t2,*t3,*t4,*t5,*t6,*t7,*t8,*t9,*t0;
 
-int main()
-{
+int main() {
     FILE *inputFile,*output;
     inputFile = fopen("./test2.txt", "r");
     output = fopen("./output.txt","w+");
@@ -131,23 +130,20 @@ int main()
 
 node* min(node *root) {
     node *curr = root;
-    while(curr->left != NULL){
+    while(curr->left != NULL) {
         curr = curr->left;
     }
     return curr;
 }
 
-void insert(node **root, int num1) {
-    if(*root == NULL)
-    {
+void insert(node **root, int value) {
+    if(*root == NULL) {
         *root = malloc(sizeof(node));
-
-       (*root)->right = NULL;
-       (*root)->value = num1;
-       (*root)->right = NULL;
+        (*root)->value = value;
+        (*root)->right = NULL;
+        (*root)->right = NULL;
     }
-    else
-    {
+    else {
         if(num1 <(*root)->value)
             insert(&((*root)->left), num1);
         else
