@@ -103,11 +103,27 @@ int main()
             for(i = 0; i < 10; i++){
                 result = complement(pickTree(i),input);
                 if(result != 0) {
-                    printf("The complements of %d are %d and %d\n",input,result,input-result);
+                    fprintf(output,"yes ");
                     break;
                 }
             }
-            if(result == 0) printf("There are no two numbers in the data set that add up to %d",input);
+            if(result == 0) fprintf(output,"no ");
+        }
+        else if(command == 'C') {
+            fscanf(inputFile, "(%d", &input);
+            int count = 0;
+            while(search(pickTree(input),input)){
+                count++;
+                delete(pickTree(input),input);
+            }
+            fprintf(output,"%d ",count);
+            node **ptr;
+            node *tmp;
+            tmp = pickTree(input);
+            ptr = &tmp;
+            for(count;count>0;count--){
+                insert(ptr,input);
+            }
         }
         command = getc(inputFile);
     }
@@ -214,22 +230,14 @@ int search(node *root, int val) {
 
 int complement(node *root, int goal) {
     if(root == NULL) return 0;
-    else if(root->right != NULL && root->left != NULL) {
-        if(search(pickTree(goal-(root->value)), goal-(root->value))) return root->value;
+    else {
+        int searchFor = goal-root->value;
+        if(search(pickTree(searchFor),searchFor)) return 1;
         else {
             complement(root->left,goal);
             complement(root->right,goal);
         }
     }
-    else if(root->right != NULL) {
-        if(search(pickTree(goal-(root->value)), goal-(root->value))) return root->value;
-        else complement(root->right,goal);
-    }
-    else if(root->left != NULL) {
-        if(search(pickTree(goal-(root->value)), goal-(root->value))) return root->value;
-        else complement(root->left,goal);
-    }
-    else return 0;
 }
 
 //int complement()
