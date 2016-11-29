@@ -21,10 +21,11 @@ node *t1,*t2,*t3,*t4,*t5,*t6,*t7,*t8,*t9,*t0;
 
 int main()
 {
-    FILE *file;
-    file = fopen("./test.txt", "r");
+    FILE *inputFile,*output;
+    inputFile = fopen("./test2.txt", "r");
+    output = fopen("./output.txt","w+");
     int arr[1000000], arr1[1000000];
-    char command[15];
+    char command;
     int i, num, input;
     //initializing the each moded tree
     t0 = NULL;
@@ -37,63 +38,11 @@ int main()
     t7 = NULL;
     t8 = NULL;
     t9 = NULL;
-
-    printf("Enter the number of elements in the list : ");
-    scanf("%d",&num);
-    //printf("\nEnter the elements to be sorted: \n");
-    for(i = 0;i < num;i++)
-    {
-        fscanf(file,"%d",&arr[i]);
-        arr1[i]=arr[i];
-    }
-
-    for(i = 0; i < num; i++) {
-        switch(arr1[i] % 10){
-            case 0:
-                insert(&t0,arr1[i]);
-                break;
-            case 1:
-                insert(&t1,arr1[i]);
-                break;
-            case 2:
-                insert(&t2,arr1[i]);
-                break;
-            case 3:
-                insert(&t3,arr1[i]);
-                break;
-            case 4:
-                insert(&t4,arr1[i]);
-                break;
-            case 5:
-                insert(&t5,arr1[i]);
-                break;
-            case 6:
-                insert(&t6,arr1[i]);
-                break;
-            case 7:
-                insert(&t7,arr1[i]);
-                break;
-            case 8:
-                insert(&t8,arr1[i]);
-                break;
-            case 9:
-                insert(&t9,arr1[i]);
-                break;
-            default: break;
-        }
-    }
-
-    for(i = 0; i < 9; i++) {
-        sorted(pickTree(i));
-    }
-
-    while(1){
-        printf("What do you want to do: ");
-        scanf("%s",command);
-        if(strcmp(command,"kill") == 0) break;
-        else if(strcmp(command,"insert") == 0) {
-            printf("Number: ");
-            scanf("%d",&input);
+    command = getc(inputFile);
+    while(command != EOF) {
+        if(command == 'I') {
+            fscanf(inputFile,"(%d",&input);
+            fprintf(output,"i ");
             switch(input % 10){
                 case 0:
                     insert(&t0,input);
@@ -138,25 +87,21 @@ int main()
                 default: break;
             }
         }
-        else if(strcmp(command,"delete") == 0) {
-            printf("Number: ");
-            scanf("%d",&input);
+        else if(command == 'D') {
+            fscanf(inputFile,"(%d",&input);
+            fprintf(output,"d ");
             delete(pickTree(input),input);
         }
-        else if(strcmp(command,"search") == 0) {
-            printf("Number: ");
-            scanf("%d",&input);
-            if(search(pickTree(input),input)) printf("%d is in the data set\n",input);
-            else printf("%d is not in the data set\n", input);
+        else if(command == 'M') {
+            fscanf(inputFile,"(%d",&input);
+            if(search(pickTree(input),input)) fprintf(output,"yes ");
+            else fprintf(output,"no ");
         }
-        else if(strcmp(command,"complement") ==  0) {
-            printf("Number: ");
-            scanf("%d", &input);
+        else if(command == 'S') {
+            fscanf(inputFile,"(%d",&input);
             int result = 0;
             for(i = 0; i < 10; i++){
-                printf("WHERE ARE YOU BREAKING %d\n",i);
                 result = complement(pickTree(i),input);
-                printf("WHERE THE HELL ARE YOU BREAKING\n");
                 if(result != 0) {
                     printf("The complements of %d are %d and %d\n",input,result,input-result);
                     break;
@@ -164,10 +109,11 @@ int main()
             }
             if(result == 0) printf("There are no two numbers in the data set that add up to %d",input);
         }
+        command = getc(inputFile);
     }
 }
 
-node* min(node *root){
+node* min(node *root) {
     node *curr = root;
     while(curr->left != NULL){
         curr = curr->left;
@@ -175,8 +121,7 @@ node* min(node *root){
     return curr;
 }
 
-void insert(node **root, int num1)
-{
+void insert(node **root, int num1) {
     if(*root == NULL)
     {
         *root = malloc(sizeof(node));
@@ -194,8 +139,7 @@ void insert(node **root, int num1)
     }
 }
 
-void sorted(node *root)
-{
+void sorted(node *root) {
     if(root != NULL)
     {
         sorted(root->left);
@@ -269,7 +213,6 @@ int search(node *root, int val) {
 }
 
 int complement(node *root, int goal) {
-    printf("checking %d\n",goal-(root->value));
     if(root == NULL) return 0;
     else if(root->right != NULL && root->left != NULL) {
         if(search(pickTree(goal-(root->value)), goal-(root->value))) return root->value;
