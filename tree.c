@@ -41,7 +41,7 @@ int main()
     command = getc(inputFile);
     while(command != EOF) {
         if(command == 'I') {
-            fscanf(inputFile,"%d",&input);
+            fscanf(inputFile,"(%d",&input);
             fprintf(output,"i ");
             switch(input % 10){
                 case 0:
@@ -88,22 +88,20 @@ int main()
             }
         }
         else if(command == 'D') {
-            fscanf(inputFile,"%d",&input);
+            fscanf(inputFile,"(%d",&input);
             fprintf(output,"d ");
             delete(pickTree(input),input);
         }
         else if(command == 'M') {
-            fscanf(inputFile,"%d",&input);
+            fscanf(inputFile,"(%d",&input);
             if(search(pickTree(input),input)) fprintf(output,"yes ");
             else fprintf(output,"no ");
         }
         else if(command == 'S') {
-            fscanf(inputFile,"%d",&input);
+            fscanf(inputFile,"(%d",&input);
             int result = 0;
             for(i = 0; i < 10; i++){
-                printf("WHERE ARE YOU BREAKING %d\n",i);
                 result = complement(pickTree(i),input);
-                printf("WHERE THE HELL ARE YOU BREAKING\n");
                 if(result != 0) {
                     printf("The complements of %d are %d and %d\n",input,result,input-result);
                     break;
@@ -115,7 +113,7 @@ int main()
     }
 }
 
-node* min(node *root){
+node* min(node *root) {
     node *curr = root;
     while(curr->left != NULL){
         curr = curr->left;
@@ -123,8 +121,7 @@ node* min(node *root){
     return curr;
 }
 
-void insert(node **root, int num1)
-{
+void insert(node **root, int num1) {
     if(*root == NULL)
     {
         *root = malloc(sizeof(node));
@@ -142,8 +139,7 @@ void insert(node **root, int num1)
     }
 }
 
-void sorted(node *root)
-{
+void sorted(node *root) {
     if(root != NULL)
     {
         sorted(root->left);
@@ -217,7 +213,6 @@ int search(node *root, int val) {
 }
 
 int complement(node *root, int goal) {
-    printf("checking %d\n",goal-(root->value));
     if(root == NULL) return 0;
     else if(root->right != NULL && root->left != NULL) {
         if(search(pickTree(goal-(root->value)), goal-(root->value))) return root->value;
