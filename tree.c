@@ -15,6 +15,7 @@ node* insert(node *, int);
 node* insertHelp(int);
 void sorted(node *);
 node* delete(node*, int);
+int count(node*, int);
 int search(node*, int);
 int complement(node*, int);
 node* table[10];
@@ -36,10 +37,7 @@ int main() {
         else if(command == 'D') {
             fscanf(inputFile,"(%d",&input);
             fprintf(output,"d ");
-            sorted(table[input%10]);
-            delete(table[input%10],input);
-            printf("\n");
-            sorted(table[input%10]);
+            table[input%10] = delete(table[input%10],input);
         }
         else if(command == 'M') {
             fscanf(inputFile,"(%d",&input);
@@ -60,15 +58,9 @@ int main() {
         }
         else if(command == 'C') {
             fscanf(inputFile, "(%d", &input);
-            int count = 0;
-            while(search(table[input%10],input)){
-                count++;
-                delete(table[input%10],input);
-            }
-            fprintf(output,"%d ",count);
-            for(count;count>0;count--){
-                table[input%10] = insert(table[input%10],input);
-            }
+            int counter = 0;
+            counter = count(table[input%10],input);
+            fprintf(output,"%d ",counter);
         }
         command = getc(inputFile);
     }
@@ -104,9 +96,10 @@ void sorted(node *root) {
     if(root != NULL)
     {
         sorted(root->left);
-        printf("%d ",root->value);
+        //printf("%d ",root->value);
         sorted(root->right);
     }
+    else printf("empty");
 }
 
 node* delete(node *root, int val) {
@@ -124,11 +117,24 @@ node* delete(node *root, int val) {
             free(root);
             return root->left;
         }
-        node *temp = min(root->right);
-        root->value = temp->value;
-        root->right = delete(root->right, temp->value);
+        else if(root->right != NULL && root->left != NULL) {
+            node *temp = min(root->right);
+            root->value = temp->value;
+            root->right = delete(root->right, temp->value);
+            return root;
+        }
+        else return NULL;
     }
     return root;
+}
+
+int count(node *root, int val) {
+    int final = 0;
+    if(search(table[val%10],val)) {
+        final += count(root->left,val);
+    }
+    else return 0;
+    return final;
 }
 
 int search(node *root, int val) {
