@@ -38,7 +38,7 @@ int main()
     t7 = NULL;
     t8 = NULL;
     t9 = NULL;
-    fscanf(inputFile,"%c",&command);
+    command = getc(inputFile);
     while(command != EOF) {
         if(command == 'I') {
             fscanf(inputFile,"%d",&input);
@@ -111,7 +111,7 @@ int main()
             }
             if(result == 0) printf("There are no two numbers in the data set that add up to %d",input);
         }
-        fscanf(inputFile,"%c",&command);
+        command = getc(inputFile);
     }
 }
 
