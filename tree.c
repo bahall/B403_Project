@@ -12,7 +12,8 @@ typedef struct node
 
 node* min(node *);
 node* insert(node *, int);
-node* insertHelp(int);
+node* insertHelp1(int);
+node* insertHelp2(node*, int);
 void sorted(node *);
 node* delete(node*, int);
 int count(node*, int);
@@ -59,7 +60,7 @@ int main() {
         else if(command == 'C') {
             fscanf(inputFile, "(%d", &input);
             int counter = 0;
-            counter = count(table[input%10],input);
+            if(search(table[input%10],input)) counter = count(table[input%10],input);
             fprintf(output,"%d ",counter);
         }
         command = getc(inputFile);
@@ -75,31 +76,38 @@ node* min(node *root) {
 }
 
 node* insert(node *root, int num) {
-    if(root == NULL) return insertHelp(num);
+    if(root == NULL) return insertHelp1(num);
     else {
-        if(num <= root->value) root->left = insert(root->left, num);
+        if(num < root->value) root->left = insert(root->left, num);
+        else if(num == root->value) root->left = insertHelp2(root->left,num);
         else root->right = insert(root->right, num);
         return root;
     }
 }
 
-node* insertHelp(int num){
+node* insertHelp1(int num){
     node *new = malloc(sizeof(node));
     new->value = num;
     new->right = NULL;
     new->right = NULL;
-    //printf("creating a new node with value %d",num);
+    return new;
+}
+
+node* insertHelp2(node *child, int num) {
+    node *new = malloc(sizeof(node));
+    new->value = num;
+    new->right = NULL;
+    new->left = child;
     return new;
 }
 
 void sorted(node *root) {
     if(root != NULL)
     {
+        printf("%d ",root->value);
         sorted(root->left);
-        //printf("%d ",root->value);
         sorted(root->right);
     }
-    else printf("empty");
 }
 
 node* delete(node *root, int val) {
@@ -129,12 +137,12 @@ node* delete(node *root, int val) {
 }
 
 int count(node *root, int val) {
-    int final = 0;
-    if(search(table[val%10],val)) {
-        final += count(root->left,val);
-    }
+    int counter = 0;
+    if(root == NULL) return 0;
+    else if(root->value == val) return counter = 1 + count(root->left,val);
+    else if(root->value > val) return count(root->left,val);
+    else if(root->value < val) return count(root->right,val);
     else return 0;
-    return final;
 }
 
 int search(node *root, int val) {
