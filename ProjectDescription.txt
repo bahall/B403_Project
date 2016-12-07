@@ -1,0 +1,27 @@
+Design and implement a data structure A to maintain a dynamic collection of integers in the range [0..1M]. There could be up to 1M integers to be maintained by your data structure.
+
+Your data structure should support the following operations:
+
+1. I(x): Insert x, insert a new entry x to A (note that A can have multiple instances of x). response 'i'
+
+2. D(x): Delete x, delete one instance of x provided it exists in A. Otherwise, do nothing. response 'd'. 
+
+In addition, A should be able to respond to the following queries:
+
+3. M(x): Membership of x, Does A include an entry with value x? The response to this query should be in the form "yes" or "no".
+
+4. C(x): Count of x, How many instances of x are present in A? The response to this query should be the number of instances of x in A, which could be 0.
+
+5. S(x): Sum to x, Are there two entries i and j whose sum is x? The response to the query should be "yes", if at least one such pair is present in A, or "no", if it is not present.
+
+Input and Output format
+Input : Read a file which has space separated operations and queries: I(x), D(x), M(x), C(x) S(x)
+Output: Write to a file the appropriate responses
+Example:
+Input.txt
+I(10) I(3) I(2) D(2) M(3) I(5) C(5) S(5) S(8) I(4) D(15) I(4) C(4) C(13) M(13).... million such entries with integers range [0..1M]
+
+Output.txt
+i i i d yes i 1 no yes i d i 2 0 no................
+
+Your data-structure should be implemented in C/C++, Java or JavaScript. It will be tested on a single core/single thread standard PC with at most 1GB of main memory. Half of the points will be based on correct execution of the operations and queries; the remaining half will be based on performance. Each student is expected to return their own code and in-class collaboration is not allowed. However parts of the code could be borrowed from standard implementations that can be found on the web.
