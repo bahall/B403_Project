@@ -7,7 +7,7 @@ int table[1000001];
 
 int main() {
     FILE *inputFile,*output;
-    inputFile = fopen("../Input.txt", "r");
+    inputFile = fopen("./Input.txt"), "r");
     output = fopen("./output.txt","w+");
     char command;
     int i, num, input, complement;
