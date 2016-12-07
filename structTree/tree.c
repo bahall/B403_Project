@@ -23,7 +23,7 @@ node* table[10];
 
 int main() {
     FILE *inputFile,*output;
-    inputFile = fopen("./test2.txt", "r");
+    inputFile = fopen(".././smallTest.txt", "r");
     output = fopen("./output.txt","w+");
     char command;
     int i, num, input;
